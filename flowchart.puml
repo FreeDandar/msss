@@ -1,0 +1,50 @@
+@startuml
+[*] --> UnauthenticatedUser: Start
+UnauthenticatedUser --> AuthenticatedUser: Authenticate
+AuthenticatedUser --> ViewingSpots: Search Parking
+ViewingSpots --> BookingSpot: Select Spot
+BookingSpot --> ProcessingPayment: Pay
+ProcessingPayment --> BookingConfirmed: Confirm Payment
+BookingConfirmed --> [*]
+
+ViewingSpots --> UnauthenticatedUser: Logout
+AuthenticatedUser --> UnauthenticatedUser: Logout
+
+AuthenticatedUser --> ViewingBookings: View Bookings
+ViewingBookings --> ModifyingBooking: Modify Booking
+ModifyingBooking --> BookingModified: Confirm Modification
+BookingModified --> [*]
+
+AuthenticatedUser --> ReceivingNotifications: Notifications
+ReceivingNotifications --> [*]
+
+state AuthenticatedUser {
+  [*] --> UserDashboard: Enter Dashboard
+  UserDashboard --> BookingSpot: Book Parking Spot
+  UserDashboard --> ViewingBookings: View Booking History
+  UserDashboard --> ReceivingNotifications: Receive Notifications
+  UserDashboard --> UnauthenticatedUser: Logout
+}
+
+state Admin {
+  [*] --> AdminDashboard: Enter Dashboard
+  AdminDashboard --> ManagingSpots: Manage Parking Spots
+  ManagingSpots --> SpotAdded: Add Spot
+  ManagingSpots --> SpotRemoved: Remove Spot
+  ManagingSpots --> SpotUpdated: Update Spot Details
+  AdminDashboard --> ViewingReports: View Reports
+  ViewingReports --> [*]
+  AdminDashboard --> UnauthenticatedUser: Logout
+}
+
+Admin --> ManagingUsers: Manage Users
+ManagingUsers --> UserAdded: Add User
+ManagingUsers --> UserRemoved: Remove User
+ManagingUsers --> UserUpdated: Update User
+ManagingUsers --> AdminDashboard: Return
+UserAdded --> [*]
+UserRemoved --> [*]
+UserUpdated --> [*]
+
+@enduml
+

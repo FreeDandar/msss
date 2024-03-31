@@ -1,0 +1,48 @@
+@startuml
+
+[*] --> User
+[*] --> Admin
+
+state User {
+  [*] --> Authentication
+  
+  Authentication --> SearchParkingSpot : login / register
+  Authentication --> ViewingBookingHistory : login / register
+  Authentication --> ReceiveNotifications : login / register
+  
+  SearchParkingSpot --> SelectParkingSpot : spots available
+  SelectParkingSpot --> ConfirmBooking : select spot
+  ConfirmBooking --> MakePayment : booking details confirmed
+  MakePayment --> ReceivePaymentConfirmation : payment successful
+  ReceivePaymentConfirmation --> [*]
+  
+  ViewingBookingHistory --> RateReviewParkingSpot : view history
+  RateReviewParkingSpot --> [*]
+  
+  SearchParkingSpot --> ReceiveCancellationConfirmation : cancel booking
+  ReceiveCancellationConfirmation --> [*]
+}
+
+state Admin {
+  [*] --> AdminAuthentication
+  
+  AdminAuthentication --> AddParkingSpot : login
+  AdminAuthentication --> UpdateParkingSpotStatus : login
+  AdminAuthentication --> RemoveParkingSpot : login
+  AdminAuthentication --> ViewBookingReports : login
+  AdminAuthentication --> AdjustPricing : login
+  AdminAuthentication --> ManageUserAccounts : login
+  AdminAuthentication --> SendNotifications : login
+  
+  AddParkingSpot --> SetParkingSpotDetails : spot added
+  SetParkingSpotDetails --> [*]
+  
+  UpdateParkingSpotStatus --> [*]
+  RemoveParkingSpot --> [*]
+  ViewBookingReports --> [*]
+  AdjustPricing --> [*]
+  ManageUserAccounts --> [*]
+  SendNotifications --> [*]
+}
+
+@enduml

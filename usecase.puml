@@ -1,0 +1,35 @@
+@startuml
+left to right direction
+actor User
+actor Admin
+
+rectangle "Public Parking Information System" {
+  User --> (Authenticate)
+  User --> (Search for Parking Spot)
+  User --> (Book Parking Spot)
+  User --> (Make Payment)
+  User --> (View Booking History)
+  User --> (Cancel Booking)
+  User --> (Rate and Review Parking Spot)
+  User --> (Receive Notifications)
+
+  (Search for Parking Spot) .> (View Parking Spot Details) : <<include>>
+  (Book Parking Spot) .> (Confirm Booking) : <<extend>>
+  (Make Payment) .> (Receive Payment Confirmation) : <<extend>>
+  (Cancel Booking) .> (Receive Cancellation Confirmation) : <<extend>>
+  
+  Admin --> (Add Parking Spot)
+  Admin --> (Edit Parking Spot Details)
+  Admin --> (Remove Parking Spot)
+  Admin --> (View Booking Reports)
+  Admin --> (Adjust Pricing)
+  Admin --> (Manage User Accounts)
+  Admin --> (Send Notifications)
+
+  (Add Parking Spot) .> (Set Parking Spot Details) : <<include>>
+  (Edit Parking Spot Details) .> (Update Parking Spot Status) : <<include>>
+  (View Booking Reports) .> (Analyze Parking Usage) : <<extend>>
+  (Adjust Pricing) .> (Set Pricing Policies) : <<include>>
+}
+@enduml
+

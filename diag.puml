@@ -1,0 +1,32 @@
+@startuml
+start
+:User initiates parking request;
+:Authenticate User;
+if (User authenticated?) then (yes)
+  :Search for available parking;
+  if (Parking available?) then (yes)
+    :Display available spots;
+    :User selects a parking spot;
+    :Confirm spot selection;
+    :Process payment;
+    if (Payment successful?) then (yes)
+      :Reserve parking spot;
+      :Generate booking confirmation;
+      :Notify user;
+    else (no)
+      :Inform payment failure;
+      stop
+    endif
+  else (no)
+    :Inform no parking available;
+    stop
+  endif
+else (no)
+  :Prompt for registration or retry;
+endif
+:User parks vehicle;
+:Update parking spot status;
+:User completes parking;
+stop
+@enduml
+

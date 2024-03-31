@@ -1,0 +1,65 @@
+@startuml
+actor User
+actor Admin
+participant "Authentication System" as Auth
+participant "Parking Spot Search" as Search
+participant "Booking System" as Booking
+participant "Payment System" as Payment
+participant "Notification System" as Notifications
+database "Database" as DB
+
+== User Actions ==
+User -> Auth : Login/Register
+Auth -> DB : Validate User
+DB -> Auth : User Validated
+Auth --> User : Authentication Successful
+
+User -> Search : Search for Spot
+Search -> DB : Query Available Spots
+DB -> Search : Return Spots
+Search --> User : Display Spots
+
+User -> Booking : Select Spot
+Booking -> DB : Reserve Spot
+DB -> Booking : Spot Reserved
+Booking --> User : Booking Successful
+
+User -> Payment : Pay for Booking
+Payment -> DB : Process Payment
+DB -> Payment : Payment Confirmed
+Payment --> User : Display Payment Confirmation
+
+User -> Booking : Cancel Booking
+Booking -> DB : Update Booking Status
+DB -> Booking : Booking Cancelled
+Booking --> User : Cancellation Successful
+
+User -> Notifications : Receive Notifications
+Notifications -> User : Send Notifications
+
+== Admin Actions ==
+Admin -> Auth : Login
+Auth -> DB : Validate Admin
+DB -> Auth : Admin Validated
+Auth --> Admin : Authentication Successful
+
+Admin -> DB : Add/Update/Remove Spot
+DB --> Admin : Spot Added/Updated/Removed
+
+Admin -> Booking : View Bookings
+Booking -> DB : Fetch Bookings
+DB -> Booking : Return Bookings
+Booking --> Admin : Display Bookings
+
+Admin -> Payment : Manage Payments
+Payment -> DB : Update Payment Info
+DB -> Payment : Payment Info Updated
+Payment --> Admin : Payment Managed
+
+Admin -> Notifications : Send Notifications
+Notifications -> DB : Fetch User List
+DB -> Notifications : User List Fetched
+Notifications -> User : Broadcast Notifications
+
+@enduml
+

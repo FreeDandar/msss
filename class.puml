@@ -1,0 +1,67 @@
+@startuml
+frame "Public Parking Information System" {
+
+class User {
+  -String email
+  -String password
+  -String name
+  +register(email: String, password: String): void
+  +login(email: String, password: String): boolean
+  +bookParking(spotId: int, startTime: DateTime, endTime: DateTime): Booking
+  +cancelBooking(bookingId: int): boolean
+}
+
+class Admin {
+  -String email
+  -String password
+  -String name
+  +addParkingSpot(location: String, pricePerHour: double): ParkingSpot
+  +removeParkingSpot(spotId: int): boolean
+  +updateParkingSpot(spotId: int, newDetails: ParkingSpotDetails): boolean
+}
+
+class ParkingSpot {
+  -int id
+  -String location
+  -boolean isAvailable
+  -double pricePerHour
+  +toggleAvailability(): void
+  +updatePrice(newPrice: double): void
+}
+
+class Booking {
+  -int id
+  -DateTime startTime
+  -DateTime endTime
+  -User user
+  -ParkingSpot parkingSpot
+  +calculatePrice(): double
+  +extendBooking(extraTime: DateTime): boolean
+}
+
+class Payment {
+  -int id
+  -double amount
+  -DateTime paymentDate
+  -Booking booking
+  +processPayment(paymentDetails: PaymentDetails): boolean
+}
+
+class Notification {
+  -int id
+  -String message
+  -DateTime sendTime
+  -User user
+  +sendNotification(): void
+}
+
+User "1" -- "*" Booking : makes >
+Booking "1" -- "1" ParkingSpot : includes >
+Booking "1" -- "1" Payment : has >
+Admin "1" -- "*" ParkingSpot : manages >
+User "1" -- "*" Notification : receives >
+Admin "1" -- "*" Notification : sends >
+
+}
+@enduml
+
